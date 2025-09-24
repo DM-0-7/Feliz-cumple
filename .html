@@ -1,0 +1,53 @@
+import React, { useEffect } from "react";
+import confetti from "canvas-confetti";
+
+export default function FelizCumple() {
+  useEffect(() => {
+    // Confeti al cargar
+    confetti({
+      particleCount: 200,
+      spread: 100,
+      origin: { y: 0.6 },
+    });
+
+    // Globos solo al inicio
+    const balloonsContainer = document.createElement("div");
+    balloonsContainer.style.position = "fixed";
+    balloonsContainer.style.top = 0;
+    balloonsContainer.style.left = 0;
+    balloonsContainer.style.width = "100%";
+    balloonsContainer.style.height = "100%";
+    balloonsContainer.style.pointerEvents = "none";
+    document.body.appendChild(balloonsContainer);
+
+    for (let i = 0; i < 10; i++) {
+      const balloon = document.createElement("div");
+      balloon.innerText = "🎈";
+      balloon.style.position = "absolute";
+      balloon.style.fontSize = `${Math.random() * 40 + 30}px`;
+      balloon.style.left = `${Math.random() * 100}%`;
+      balloon.style.bottom = "-50px";
+      balloon.style.animation = `flyBalloon ${5 + Math.random() * 5}s linear forwards`;
+      balloonsContainer.appendChild(balloon);
+    }
+
+    return () => {
+      document.body.removeChild(balloonsContainer);
+    };
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300">
+      <h1 className="text-5xl font-bold text-white mb-6 drop-shadow-lg animate-bounce">
+        🎉 ¡Feliz Cumpleaños te quiero mucho! 🎉
+      </h1>
+      <div className="text-9xl">🎂</div>
+      <style jsx global>{`
+        @keyframes flyBalloon {
+          0% { transform: translateY(0) scale(1); opacity: 1; }
+          100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+      `}</style>
+    </div>
+  );
+}
